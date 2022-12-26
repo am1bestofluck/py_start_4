@@ -23,7 +23,7 @@ from math import pi
 from typing import Any
 
 # local imports
-from subfunctions import split_number
+from subfunctions import (Break, split_number,input_float, input_int)
 
 
 
@@ -58,8 +58,27 @@ def t1(number_i: int | float, round_to: int) -> float:
     return parts[0] + number_m
 
 
-def t2() -> list[int]:
-    return
+def t2(number: int) -> list[int]:
+    """Раскладываем число на простые множители"""
+    """
+    output - вывод
+    number_m - дублируем входящую переменную на всякий случай  
+    is_composite - условие выхода из цикла; выходим если число 
+    оказалось простым
+
+    """
+    output = []
+    number_m = number
+    is_composite=True
+    while is_composite:
+        if number_m == 1:
+            break
+        for try_divide in range( 2, number_m+1,1):
+            if not number_m%try_divide:
+                output.append(try_divide)
+                number_m = int(number_m /try_divide)
+                break
+    return output
 
 
 def t3() -> set(Any):
@@ -74,8 +93,17 @@ def t5() -> None:
     return
 
 
-def main():
-    return
+def main() -> None:
+    """Сценарий, в этот раз без консоли"""
+    # print(t1.__doc__)
+    # print(t1(
+    #     input_float("Input number to reduce"), 
+    #     input_int("Input expected fractional length")))
+    # Break()
+    print(t2.__doc__)
+    print(t2(input_int("Number to factorize ")))
+    # Break()
+    return None
 
 
 if __name__ == "__main__":
