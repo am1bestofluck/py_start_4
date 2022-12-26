@@ -19,9 +19,9 @@ __author__ = "anton6733@gmail.com"
 
 
 # standart imports
-from math import pi
 from typing import Any
-
+import collections.abc
+import random
 # local imports
 from subfunctions import (Break, split_number,input_float, input_int)
 
@@ -81,9 +81,16 @@ def t2(number: int) -> list[int]:
     return output
 
 
-def t3() -> set(Any):
-    return
-
+def t3(coll: collections.abc.Iterable) -> set(Any):
+    """Возвращаем уникальные значения из коллекции"""
+    # output = []
+    # for i in coll:
+    #     if i in output:
+    #         pass
+    #     else:
+    #         output.append(i)
+    # return output
+    return set(coll) # :)
 
 def t4() -> None:
     return
@@ -95,14 +102,16 @@ def t5() -> None:
 
 def main() -> None:
     """Сценарий, в этот раз без консоли"""
-    # print(t1.__doc__)
-    # print(t1(
-    #     input_float("Input number to reduce"), 
-    #     input_int("Input expected fractional length")))
-    # Break()
+    print(t1.__doc__)
+    print(t1(
+        input_float("Input number to reduce"), 
+        input_int("Input expected fractional length")))
+    Break()
     print(t2.__doc__)
     print(t2(input_int("Number to factorize ")))
-    # Break()
+    Break()
+    print(t3.__doc__)
+    print(t3(random.choices([0,1],k= 10**6)))
     return None
 
 
