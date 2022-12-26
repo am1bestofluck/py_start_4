@@ -26,6 +26,8 @@ from typing import Any
 from subfunctions import split_number
 
 
+
+
 def t1(number_i: int | float, round_to: int) -> float:
     """переизобретаем round
 
@@ -42,7 +44,7 @@ def t1(number_i: int | float, round_to: int) -> float:
     # шутка в том что получилось точнее чем в round, например:
     # assert round(10.987654321, 3) == t1( 10.987654321, 3) - 
     # round даёт последним знаком 8 а не 7. Воот :].
-    
+
     # в принципе можно потом, если время останется, попробовать приобщить
     # decimal
     parts = split_number(number_i)
@@ -73,7 +75,6 @@ def t5() -> None:
 
 
 def main():
-    assert round(pi,5) == t1(pi,5)
     return
 
 
