@@ -92,6 +92,7 @@ def t3(coll: collections.abc.Iterable) -> set(Any):
     # return output
     return set(coll) # :)
 
+
 def t4() -> None:
     return
 
@@ -101,15 +102,15 @@ def t5() -> None:
 
 
 def main() -> None:
-    # """Сценарий, в этот раз без консоли"""
-    # print(t1.__doc__)
-    # print(t1(
-    #     input_float("Input number to reduce"), 
-    #     input_int("Input expected fractional length")))
-    # Break()
-    # print(t2.__doc__)
-    # print(t2(input_int("Number to factorize ")))
-    # Break()
+    """Сценарий, в этот раз без консоли"""
+    print(t1.__doc__)
+    print(t1(
+        input_float("Input number to reduce"), 
+        input_int("Input expected fractional length")))
+    Break()
+    print(t2.__doc__)
+    print(t2(input_int("Number to factorize ")))
+    Break()
     print(t3.__doc__)
     print(t3("The quick brown fox jumps over the lazy dog"))
     print( t3(random.choices(range(100),k=5)*10**3))
