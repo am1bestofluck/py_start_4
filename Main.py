@@ -19,6 +19,7 @@ __author__ = "anton6733@gmail.com"
 
 
 # standart imports
+from math import pi
 from typing import Any
 
 # local imports
@@ -26,7 +27,7 @@ from subfunctions import split_number
 
 
 def t1(number_i: int | float, round_to: int) -> float:
-    """пересоздаём round.
+    """переизобретаем round
 
     number -  число к округлению
 
@@ -35,8 +36,15 @@ def t1(number_i: int | float, round_to: int) -> float:
     """
     parts - разбиваем целую и округляемую часть
     number_m - изменяемая (дробная) часть числа
-    fractial_stringified - 
+    fractial_stringified - работаем с числом как со строкой... 
     """
+
+    # шутка в том что получилось точнее чем в round, например:
+    # assert round(10.987654321, 3) == t1( 10.987654321, 3) - 
+    # round даёт последним знаком 8 а не 7. Воот :].
+    
+    # в принципе можно потом, если время останется, попробовать приобщить
+    # decimal
     parts = split_number(number_i)
     number_m = parts[1]
     fractial_stringified = str(number_m)[2:]
@@ -65,14 +73,7 @@ def t5() -> None:
 
 
 def main():
-    w = 10.987654321
-    cases = [
-        [w, 0], [-w, 0],
-        [w, 1], [w, -1], [w, 2], [w, -2], [w, 3], [w, -3],
-        [w, 35], [w, -35]
-    ]
-    for i in cases:
-        print(t1(i[0], i[1]))
+    assert round(pi,5) == t1(pi,5)
     return
 
 
