@@ -104,9 +104,15 @@ def merge_polynomial(expression_i:str) -> str:
     fix_substract = re.compile('\+\-')
     expression_o = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
     fix_substract = re.compile('\-\+')
-    output = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
-    fix_add = re.compile('\+\+')
-    output = re.sub(pattern=fix_add, repl='+' ,string=expression_o)
-    fix_add = re.compile('\-\-')
-    output = re.sub(pattern=fix_add, repl='+' ,string=expression_o)
-    return expression_o
+    expression_o = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
+    expression_o = expression_o.replace('+', ' +').replace('-',' -')
+    # raw_numbers = re.compile('[\+\-]?[0-9]+[^a-zA-Z]')
+    lst = re.split('[\+\-]',expression_o)
+    sum_of_raw_digits = 0
+    index = 0
+    while index > len(lst):
+        try:
+            if isinstance(int,int(lst[index])):
+                sum_of_raw_digits += int(lst[index])
+
+merge_polynomial("35a**2e +64ae -61 +24c**3e +83b -17")
