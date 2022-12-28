@@ -56,6 +56,7 @@ def Break() -> None:
 
 
 def write_polynomial(max_pow: int) -> str:
+    """формируем многочлен"""
     multiplicators = range(100)
     masks_obligatory = 'abc'
     masks_optional = ['d', 'e', 'f', '']
@@ -96,19 +97,18 @@ def write_polynomial(max_pow: int) -> str:
     output = re.sub(pattern=fix_add, repl='+', string=output)
     fix_pow_0 = re.compile(f'[{ascii_letters}]*\*\*0')
     output = re.sub(pattern=fix_pow_0, repl='', string=output)
-    adress_zero = re.compile(f'[\+\-]0[{ascii_letters}\*]*')
     return output
 
 
 def merge_polynomial(expression_i: str) -> str:
     """Пробуем сократить выражение"""
+    # получилось
     expression_m = expression_i
     fix_substract = re.compile('\+\-')
     expression_m = re.sub(pattern=fix_substract, repl='-', string=expression_m)
     fix_substract = re.compile('\-\+')
     expression_m = re.sub(pattern=fix_substract, repl='-', string=expression_m)
     expression_m = expression_m.replace('+', ' +').replace('-', ' -')
-    # raw_numbers = re.compile('[\+\-]?[0-9]+[^a-zA-Z]')
     lst = re.split(' ', expression_m)
     while '' in lst:
         lst.remove('')
