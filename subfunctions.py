@@ -1,18 +1,23 @@
 
 
-
 import math
 import os
+import random
+import re
 import sys
-from typing import List, Any
+from copy import deepcopy
+from string import ascii_letters, whitespace, digits
+from typing import List
+import pdb
+
 
 def split_number(number: float) -> List:
     """разбиваем число"""
     positive = number > 0
     whole_part = int(number)
-    fractial_part= (number - math.floor(number) if positive
-        else number - math.ceil(number))
-    return [whole_part,fractial_part]
+    fractial_part = (number - math.floor(number) if positive
+                     else number - math.ceil(number))
+    return [whole_part, fractial_part]
 
 
 def input_float(invite: str = 'input float') -> float:
@@ -48,3 +53,46 @@ def Break() -> None:
     input("Enter to proceed.")
     os.system('cls')
     return None
+
+
+def write_polynomial(max_pow: int) -> str:
+    multiplicators = range(100)
+    masks_obligatory = 'abc'
+    masks_optional = ['d','e','f','']
+    operators = '+-'
+    sign_optional = ['', '-']
+    pow_obligatory = [f'**{i}' for i in range
+                        (min(2,max_pow),max(2,max_pow)) ]
+    if pow_obligatory ==[]:
+        pow_obligatory = [f'**{i}' for i in range
+                        (min(2,max_pow+1),max(2,max_pow+1)) ]
+
+    pow_optional = deepcopy(pow_obligatory)
+    pow_optional += ''
+    output = (random.choice(sign_optional) + str(random.choice(multiplicators))
+            + random.choice(masks_obligatory) + random.choice(pow_obligatory) 
+            + random.choice(masks_optional)
+
+            + f' {random.choice(operators)} '
+            
+            + random.choice(sign_optional) + str(random.choice(multiplicators))
+            + random.choice(masks_obligatory) + random.choice(masks_optional)
+
+            + f' {random.choice(operators)} '
+
+            + random.choice(sign_optional) + str(random.choice(multiplicators))
+            )
+    white_spaces = re.compile("[' ']*")
+    output = re.sub(pattern=white_spaces, repl='' ,string=output)
+    fix_substract = re.compile('\+\-')
+    output = re.sub(pattern=fix_substract, repl='-' ,string=output)
+    fix_substract = re.compile('\-\+')
+    output = re.sub(pattern=fix_substract, repl='-' ,string=output)
+    fix_add = re.compile('\+\+')
+    output = re.sub(pattern=fix_add, repl='+' ,string=output)
+    fix_add = re.compile('\-\-')
+    output = re.sub(pattern=fix_add, repl='+' ,string=output)
+    fix_pow_0=re.compile(f'[{ascii_letters}]*\*\*0')
+    output = re.sub(pattern=fix_pow_0,repl='',string=output)
+    adress_zero = re.compile(f'[\+\-]0[{ascii_letters}\*]*')
+    return output
