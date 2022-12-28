@@ -96,3 +96,17 @@ def write_polynomial(max_pow: int) -> str:
     output = re.sub(pattern=fix_pow_0,repl='',string=output)
     adress_zero = re.compile(f'[\+\-]0[{ascii_letters}\*]*')
     return output
+
+
+def merge_polynomial(expression_i:str) -> str:
+    """Пробуем сократить выражение"""
+    expression_o = expression_i
+    fix_substract = re.compile('\+\-')
+    expression_o = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
+    fix_substract = re.compile('\-\+')
+    output = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
+    fix_add = re.compile('\+\+')
+    output = re.sub(pattern=fix_add, repl='+' ,string=expression_o)
+    fix_add = re.compile('\-\-')
+    output = re.sub(pattern=fix_add, repl='+' ,string=expression_o)
+    return expression_o

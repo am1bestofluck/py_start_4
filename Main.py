@@ -24,11 +24,12 @@ import collections.abc
 import datetime
 import random
 import os
+import re
 from pathlib import Path
 from typing import Any
 # local imports
 from subfunctions import (Break, split_number, input_float, input_int, 
-    write_polynomial)
+    write_polynomial,merge_polynomial)
 
 
 def t1(number_i: int | float, round_to: int) -> float:
@@ -118,7 +119,22 @@ def t4(max_pow: int = 10) -> os.PathLike:
     return file_name
 
 
-def t5() -> None:
+def t5(path1:os.PathLike,path2:os.PathLike) -> None:
+    """Читаем два файла, записываем результ в третий
+    """
+    seed_time = datetime.datetime.now()
+    seed_rnd = random.choice(range(100))
+    file_name = f"AM_result_{seed_time:%d-%m-%Y_%M-%H-%Y-%f}_{seed_rnd}.txt"
+    content = ''
+    with open(path1) as first_doc:
+            content += first_doc.read()
+    content +='+'
+    with open(path2) as second_doc:
+        content += second_doc.read()
+    content = merge_polynomial( content)
+    print(content)
+    with open(file_name,'w') as result:
+        result.write(content)
     return
 
 
@@ -135,9 +151,11 @@ def main() -> None:
     # print(t3.__doc__)
     # print(t3("The quick brown fox jumps over the lazy dog"))
     # print(t3(random.choices(range(100), k=5)*10**3))
-    # return None
+    Break()
     q = t4(input_int('файл1- предельная степень многочлена'))
     w = t4(input_int('файл2- предельная степень многочлена'))
+    t5(q,w)
+    return None
 
 if __name__ == "__main__":
     main()
