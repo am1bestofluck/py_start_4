@@ -8,7 +8,7 @@ import sys
 from copy import deepcopy
 from string import ascii_letters, whitespace, digits
 from typing import List
-import pdb
+# import pdb
 
 
 def split_number(number: float) -> List:
@@ -58,61 +58,74 @@ def Break() -> None:
 def write_polynomial(max_pow: int) -> str:
     multiplicators = range(100)
     masks_obligatory = 'abc'
-    masks_optional = ['d','e','f','']
+    masks_optional = ['d', 'e', 'f', '']
     operators = '+-'
     sign_optional = ['', '-']
     pow_obligatory = [f'**{i}' for i in range
-                        (min(2,max_pow),max(2,max_pow)) ]
-    if pow_obligatory ==[]:
+                      (min(2, max_pow), max(2, max_pow))]
+    if pow_obligatory == []:
         pow_obligatory = [f'**{i}' for i in range
-                        (min(2,max_pow+1),max(2,max_pow+1)) ]
+                          (min(2, max_pow+1), max(2, max_pow+1))]
 
     pow_optional = deepcopy(pow_obligatory)
     pow_optional += ''
     output = (random.choice(sign_optional) + str(random.choice(multiplicators))
-            + random.choice(masks_obligatory) + random.choice(pow_obligatory) 
-            + random.choice(masks_optional)
+              + random.choice(masks_obligatory) + random.choice(pow_obligatory)
+              + random.choice(masks_optional)
 
-            + f' {random.choice(operators)} '
-            
-            + random.choice(sign_optional) + str(random.choice(multiplicators))
-            + random.choice(masks_obligatory) + random.choice(masks_optional)
+              + f' {random.choice(operators)} '
 
-            + f' {random.choice(operators)} '
+              + random.choice(sign_optional) +
+              str(random.choice(multiplicators))
+              + random.choice(masks_obligatory) + random.choice(masks_optional)
 
-            + random.choice(sign_optional) + str(random.choice(multiplicators))
-            )
+              + f' {random.choice(operators)} '
+
+              + random.choice(sign_optional) +
+              str(random.choice(multiplicators))
+              )
     white_spaces = re.compile("[' ']*")
-    output = re.sub(pattern=white_spaces, repl='' ,string=output)
+    output = re.sub(pattern=white_spaces, repl='', string=output)
     fix_substract = re.compile('\+\-')
-    output = re.sub(pattern=fix_substract, repl='-' ,string=output)
+    output = re.sub(pattern=fix_substract, repl='-', string=output)
     fix_substract = re.compile('\-\+')
-    output = re.sub(pattern=fix_substract, repl='-' ,string=output)
+    output = re.sub(pattern=fix_substract, repl='-', string=output)
     fix_add = re.compile('\+\+')
-    output = re.sub(pattern=fix_add, repl='+' ,string=output)
+    output = re.sub(pattern=fix_add, repl='+', string=output)
     fix_add = re.compile('\-\-')
-    output = re.sub(pattern=fix_add, repl='+' ,string=output)
-    fix_pow_0=re.compile(f'[{ascii_letters}]*\*\*0')
-    output = re.sub(pattern=fix_pow_0,repl='',string=output)
+    output = re.sub(pattern=fix_add, repl='+', string=output)
+    fix_pow_0 = re.compile(f'[{ascii_letters}]*\*\*0')
+    output = re.sub(pattern=fix_pow_0, repl='', string=output)
     adress_zero = re.compile(f'[\+\-]0[{ascii_letters}\*]*')
     return output
 
 
-def merge_polynomial(expression_i:str) -> str:
+def merge_polynomial(expression_i: str) -> str:
     """Пробуем сократить выражение"""
-    expression_o = expression_i
+    expression_m = expression_i
     fix_substract = re.compile('\+\-')
-    expression_o = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
+    expression_m = re.sub(pattern=fix_substract, repl='-', string=expression_m)
     fix_substract = re.compile('\-\+')
-    expression_o = re.sub(pattern=fix_substract, repl='-' ,string=expression_o)
-    expression_o = expression_o.replace('+', ' +').replace('-',' -')
+    expression_m = re.sub(pattern=fix_substract, repl='-', string=expression_m)
+    expression_m = expression_m.replace('+', ' +').replace('-', ' -')
     # raw_numbers = re.compile('[\+\-]?[0-9]+[^a-zA-Z]')
-    lst = re.split('[\+\-]',expression_o)
-    sum_of_raw_digits = 0
-    index = 0
-    while index > len(lst):
+    lst = re.split(' ', expression_m)
+    while '' in lst:
+        lst.remove('')
+    pairs = {'': 0}  # raw numbers
+    for member in lst:
         try:
-            if isinstance(int,int(lst[index])):
-                sum_of_raw_digits += int(lst[index])
-
-merge_polynomial("35a**2e +64ae -61 +24c**3e +83b -17")
+            pairs[''] += int(member)
+        except ValueError:
+            index = 0
+            while member[index] in '0123456789+- ':
+                index += 1
+            if member[index:] in pairs:
+                pairs[member[index:]] += int(member[:index])
+            else:
+                pairs[member[index:]] = int(member[:index])
+    expression_o = ''
+    for i in pairs:
+        expression_o += f'{"+" if pairs[i]>0 else ""}{str(pairs[i])}{str(i)}'
+    expression_o = expression_o.removeprefix('+')
+    return expression_o

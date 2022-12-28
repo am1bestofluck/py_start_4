@@ -127,10 +127,14 @@ def t5(path1:os.PathLike,path2:os.PathLike) -> None:
     file_name = f"AM_result_{seed_time:%d-%m-%Y_%M-%H-%Y-%f}_{seed_rnd}.txt"
     content = ''
     with open(path1) as first_doc:
-            content += first_doc.read()
+        tmp = first_doc.read()
+        content += tmp
+        print(tmp)
     content +='+'
     with open(path2) as second_doc:
-        content += second_doc.read()
+        tmp = second_doc.read()
+        content += tmp
+        print(tmp)
     content = merge_polynomial( content)
     print(content)
     with open(file_name,'w') as result:
@@ -139,19 +143,20 @@ def t5(path1:os.PathLike,path2:os.PathLike) -> None:
 
 
 def main() -> None:
-    # """Сценарий, в этот раз без консоли"""
-    # print(t1.__doc__)
-    # print(t1(
-    #     input_float("Input number to reduce"),
-    #     input_int("Input expected fractional length")))
-    # Break()
-    # print(t2.__doc__)
-    # print(t2(input_int("Number to factorize ")))
-    # Break()
-    # print(t3.__doc__)
-    # print(t3("The quick brown fox jumps over the lazy dog"))
-    # print(t3(random.choices(range(100), k=5)*10**3))
+    """Сценарий, в этот раз без консоли"""
+    print(t1.__doc__)
+    print(t1(
+        input_float("Input number to reduce"),
+        input_int("Input expected fractional length")))
     Break()
+    print(t2.__doc__)
+    print(t2(input_int("Number to factorize ")))
+    Break()
+    print(t3.__doc__)
+    print(t3("The quick brown fox jumps over the lazy dog"*10**2))
+    print(t3(random.choices(range(100), k=5)*10**3))
+    Break()
+    print(t5.__doc__)
     q = t4(input_int('файл1- предельная степень многочлена'))
     w = t4(input_int('файл2- предельная степень многочлена'))
     t5(q,w)
